@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TareasAPP.Views.NuevaTarea"
+             Title="Agregar Tarea"
+             NavigationPage.HasBackButton="False">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cancelar"
+                     Order="Primary"
+                     Command="{Binding btnCancelar}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Padding="20">
+            <Label Text="Título de Tarea:"
+                   FontAttributes="Bold" 
+                   FontSize="Medium"/>
+            <Entry Placeholder="Digíte el título de la tarea" 
+                   Text="{Binding TituloTarea}"/>
+            <Label Text="Descripción:"
+                   FontAttributes="Bold" 
+                   FontSize="Medium"/>
+            <Editor Text="{Binding DescripcionTarea}"
+                    VerticalOptions="FillAndExpand"/>
+            <Label Text="Fecha:"
+                   FontAttributes="Bold" 
+                   FontSize="Medium"/>
+            <DatePicker Date="{Binding FechaTarea}" 
+                        MinimumDate="{Binding FechaTarea}"/>
+            <Button Text="Agregar Tarea" Command="{Binding btnGuardar}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

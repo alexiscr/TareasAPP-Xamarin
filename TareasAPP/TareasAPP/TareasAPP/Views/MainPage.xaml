@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TareasAPP.Views.MainPage"
+             Title="Lista de Tareas">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Agregar"
+                     Order="Primary"                    
+                     Command="{Binding btnAgregar}"/>
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <StackLayout>
+            <ListView ItemsSource="{Binding Tareas}" 
+                      SelectedItem="{Binding TareaSeleccionada, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Titulo}" 
+                                  Detail="{Binding Fecha, StringFormat='{0:MMMM dd, yyyy}'}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
