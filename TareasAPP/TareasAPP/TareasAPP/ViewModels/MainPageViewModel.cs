@@ -19,7 +19,8 @@ namespace TareasAPP.ViewModels
         private ObservableCollection<Tarea> _tareas;        
         private INavigationService _navegacion;
         private Tarea _tareaSeleccionada;
-        private ITareaService _tareaService;        
+        private ITareaService _tareaService;    
+                
 
         // Propiedad que realizara el binding hacia la vista 
         public ObservableCollection<Tarea> Tareas
@@ -50,8 +51,8 @@ namespace TareasAPP.ViewModels
             : base(navigationService)
         {            
             this._navegacion = navigationService;
-            this._tareaService = tareaService;
-            
+            this._tareaService = tareaService;            
+
             this.btnAgregar = new DelegateCommand(btnAgregar_Command);
             this.CargarListaTareas();
         }
@@ -72,7 +73,7 @@ namespace TareasAPP.ViewModels
         }
 
         private void btnAgregar_Command() {
-            this._navegacion.NavigateAsync("NuevaTarea");            
+            this._navegacion.NavigateAsync("NuevaTarea");                        
         }
 
         // Forzamos a la actualización de lista al navegar nuevamente a la principal

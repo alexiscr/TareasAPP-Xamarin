@@ -43,7 +43,7 @@ namespace TareasAPP
             var calendario = DependencyService.Get<ICalendarService>();
             containerRegistry.RegisterInstance<ICalendarService>(calendario);
 
-            containerRegistry.Register<ITareaService, TareaProcesos>();
+            containerRegistry.Register<ITareaService, TareaProcesos>();            
             
         }
     }
