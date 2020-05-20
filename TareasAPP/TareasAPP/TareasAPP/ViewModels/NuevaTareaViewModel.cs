@@ -27,7 +27,8 @@ namespace TareasAPP.ViewModels
         public string TituloTarea
         {
             get { return _tituloTarea; }
-            set { SetProperty(ref _tituloTarea, value); }
+            set { SetProperty(ref _tituloTarea, value);}
+           
         }
 
         public string DescripcionTarea
@@ -52,7 +53,7 @@ namespace TareasAPP.ViewModels
             this._dialogs = dialogs;
 
             // Configuración de la fecha inicial en el DatePicker
-            this._fechaTarea = DateTime.Now;
+            this._fechaTarea = DateTime.Now.Date;
 
             btnGuardar = new DelegateCommand(btnGuardar_Command);
             
@@ -66,28 +67,39 @@ namespace TareasAPP.ViewModels
             Tarea tarea = new Tarea();
             tarea.Titulo = this._tituloTarea;
             tarea.Descripcion = this._descripcionTarea;
-            tarea.Fecha = this._fechaTarea;
+            tarea.Fecha = this._fechaTarea.Date;
 
             ITarea tareas = new TareaProcesos();
-
-            bool resultado = await tareas.GuardarTarea(tarea);
-
-            if (resultado)
+            if (!string.IsNullOrEmpty(this._tituloTarea) || !string.IsNullOrWhiteSpace(this._tituloTarea))
             {
-                await this._dialogs.DisplayAlertAsync(DialogConst.tituloExito, 
-                                                      DialogConst.exitoAgregar,
-                                                      DialogConst.okOpcion);
-                
-                // Reset de las propiedades
-                TituloTarea = string.Empty;
-                DescripcionTarea = string.Empty;
-                FechaTarea = DateTime.Now;
+                bool resultado = await tareas.GuardarTarea(tarea);
+
+                if (resultado)
+                {
+                    await this._dialogs.DisplayAlertAsync(DialogConst.tituloExito,
+                                                          DialogConst.exitoAgregar,
+                                                          DialogConst.okOpcion);
+
+                    // Reset de las propiedades
+                    TituloTarea = string.Empty;
+                    DescripcionTarea = string.Empty;
+                    FechaTarea = DateTime.Now;
+                }
+                else
+                {
+                    await this._dialogs.DisplayAlertAsync(DialogConst.tituloError,
+                                                           DialogConst.errorAgregar,
+                                                           DialogConst.okOpcion); ;
+                }
             }
             else {
-                await this._dialogs.DisplayAlertAsync( DialogConst.tituloError,
-                                                       DialogConst.errorAgregar,
-                                                       DialogConst.okOpcion); ;
+                await this._dialogs.DisplayAlertAsync(DialogConst.tituloError,
+                                                           DialogConst.errorEntry,
+                                                           DialogConst.okOpcion); ;
             }
+            
+
+           
             
         }
 

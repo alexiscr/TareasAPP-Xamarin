@@ -19,7 +19,9 @@ namespace TareasAPP.Helpers
         public const string precausionEliminar = "Esta a punto de eliminar una tarea de la aplicación ¿Desea continuar?";
         public const string okOpcion = "Aceptar";
         public const string cancelOpcion = "Cancelar";
-
-
+        public const string errorCalendario = "No es posible acceder su calendario asegurese de tener una cuenta activa para utilizar este servicio";
+        public const string exitoEventoCalenario = "El evento fue agregado con exito a el calendario";
+        public const string errorEventoCalendario = "No es posible acceder su calendario asegurese de tener una cuenta activa para utilizar este servicio ";
+        public const string errorEntry = "Debe agregar un titulo a su tarea para poder agregarla";
     }
 }

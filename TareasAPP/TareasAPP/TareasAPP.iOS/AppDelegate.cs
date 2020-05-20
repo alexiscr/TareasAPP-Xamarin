@@ -1,8 +1,9 @@
 ﻿using Foundation;
 using Prism;
 using Prism.Ioc;
+using TareasAPP.Service;
 using UIKit;
-
+using Xamarin.Forms;
 
 namespace TareasAPP.iOS
 {
@@ -32,7 +33,7 @@ namespace TareasAPP.iOS
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // Register any platform specific implementations
+            // Register any platform specific implementations          
         }
     }
 }

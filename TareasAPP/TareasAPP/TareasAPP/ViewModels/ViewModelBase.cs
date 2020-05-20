@@ -10,7 +10,7 @@ namespace TareasAPP.ViewModels
     public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible
     {
         protected INavigationService NavigationService { get; private set; }
-
+        
         private string _title;
         public string Title
         {

@@ -12,7 +12,8 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Cancelar"
                      Order="Primary"
-                     Command="{Binding btnCancelar}"></ToolbarItem>
+                     Command="{Binding btnCancelar}"
+                     IconImageSource="cancel.png"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Padding="20">
@@ -20,12 +21,14 @@
                    FontAttributes="Bold" 
                    FontSize="Medium"/>
             <Entry Placeholder="Digíte el título de la tarea" 
-                   Text="{Binding Tarea.Titulo}"/>
+                   Text="{Binding Tarea.Titulo}"
+                   MaxLength="60"/>
             <Label Text="Descripción:"
                    FontAttributes="Bold" 
                    FontSize="Medium"/>
             <Editor Text="{Binding Tarea.Descripcion}"
-                    VerticalOptions="FillAndExpand"/>
+                    VerticalOptions="FillAndExpand"
+                    MaxLength="150"/>
             <Label Text="Fecha:"
                    FontAttributes="Bold" 
                    FontSize="Medium"/>
@@ -37,12 +40,13 @@
                 </Grid.ColumnDefinitions>
                 <Button Text="Actualizar Tarea" 
                     Command="{Binding btnActualizar}"
-                    Grid.Column="0"/>
+                    Grid.Column="0" Style="{StaticResource btnStyle}"/>
                 <Button Text="Eliminar Tarea" 
                     Command="{Binding btnEliminar}"
-                    Grid.Column="1"/>
+                    Grid.Column="1" Style="{StaticResource btnStyle}"/>
             </Grid>
-            <Button Text="Agregar a Calendario" Command="{Binding btnCalendario}"/>
+            <Button Text="Agregar a Calendario" Command="{Binding btnCalendario}"
+                    Style="{StaticResource btnStyle}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
