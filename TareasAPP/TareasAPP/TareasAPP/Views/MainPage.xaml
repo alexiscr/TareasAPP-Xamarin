@@ -10,16 +10,19 @@
                      Command="{Binding btnAgregar}"
                      IconImageSource="add.png"/>
     </ContentPage.ToolbarItems>
+    
     <ScrollView>
         <StackLayout>
             <ListView ItemsSource="{Binding Tareas}" 
                       SelectedItem="{Binding TareaSeleccionada, Mode=TwoWay}">
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding Titulo}" 
                                   Detail="{Binding Fecha, StringFormat='{0:MMMM dd, yyyy}'}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                
             </ListView>
         </StackLayout>
     </ScrollView>

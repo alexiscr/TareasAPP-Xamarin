@@ -7,6 +7,8 @@ using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using TareasAPP.Service;
+using TareasAPP.Interfaces;
+using TareasAPP.DataAccess;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace TareasAPP
@@ -40,6 +42,9 @@ namespace TareasAPP
 
             var calendario = DependencyService.Get<ICalendarService>();
             containerRegistry.RegisterInstance<ICalendarService>(calendario);
+
+            containerRegistry.Register<ITareaService, TareaProcesos>();
+            
         }
     }
 }

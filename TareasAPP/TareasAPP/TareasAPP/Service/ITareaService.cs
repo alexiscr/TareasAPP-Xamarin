@@ -6,7 +6,7 @@ using TareasAPP.Models;
 
 namespace TareasAPP.Interfaces
 {
-    interface ITarea : IDisposable
+    public interface ITareaService : IDisposable
     {
         /// <summary>
         /// Método para almacenar una nueva tarea

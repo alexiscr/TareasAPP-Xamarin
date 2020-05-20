@@ -21,10 +21,9 @@ namespace TareasAPP.iOS.Service
         protected EKEventStore eventStore;
         protected bool permisoOtorgado;
 
-
         public CalendarService()
         {
-            this.eventStore = new EKEventStore();            
+            this.eventStore = new EKEventStore();          
             ChequearPermiso();
 
         }
@@ -32,7 +31,9 @@ namespace TareasAPP.iOS.Service
        
         // Implementación de la interfaz
         public async Task<string> CreateEventCalendar(string titulo, string descripcion, DateTime inicioEvento, DateTime finEvento)
-        {                                  
+        {            
+
+            TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();
             if (permisoOtorgado)
             {
                 EKEvent newEvent = EKEvent.FromStore(eventStore);
@@ -40,25 +41,19 @@ namespace TareasAPP.iOS.Service
                 newEvent.EndDate = finEvento.ToNSDate();
                 newEvent.Title = titulo;
                 newEvent.Notes = descripcion;
+                newEvent.AllDay = true;
                 newEvent.Calendar = eventStore.DefaultCalendarForNewEvents;
                 NSError e;
                 eventStore.SaveEvent(newEvent, EKSpan.ThisEvent, out e);
-                return "true";
+                tcs.SetResult("true");
             }
             else
             {
-                errorMesage();
-                return string.Empty;
+                tcs.SetResult(string.Empty);
             }
+            return await tcs.Task;
         }
-        /// <summary>
-        /// Método generico para el mensaje de error de permisos
-        /// </summary>
-        private void errorMesage()
-        {
-            var alert = UIAlertController.Create("Acceso denegado", "Acceso al calendario denegado por el usuario", UIAlertControllerStyle.Alert);
-            UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alert, true, null);
-        }
+        
 
         // Chequeo de permisos para acceder a calendario en iOS 
         private void ChequearPermiso()
@@ -66,8 +61,7 @@ namespace TareasAPP.iOS.Service
             eventStore.RequestAccess(EKEntityType.Event, (bool granted, NSError error) =>
             {
                 if (!granted)
-                {
-                    errorMesage();
+                {        
                     permisoOtorgado = false;
                 }
                 else

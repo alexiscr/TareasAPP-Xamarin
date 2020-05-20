@@ -7,7 +7,7 @@ using TareasAPP.Models;
 
 namespace TareasAPP.DataAccess
 {
-    public class TareaProcesos : ITarea
+    public class TareaProcesos : ITareaService
     {
         public Task<bool> ActualizarTarea(Tarea pTarea)
         {

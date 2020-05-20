@@ -18,13 +18,15 @@
             <Label Text="Título de Tarea: (*)"
                    FontAttributes="Bold" 
                    FontSize="Medium"/>
+            
             <Entry Placeholder="Digíte el título de la tarea" 
-                   Text="{Binding TituloTarea}"    
-                   x:Name="txtTitulo"
+                   Text="{Binding TituloTarea}"                       
                    MaxLength="60"/>
+            
             <Label Text="Descripción:"
                    FontAttributes="Bold" 
                    FontSize="Medium"/>
+            
             <Editor Text="{Binding DescripcionTarea}"
                     VerticalOptions="FillAndExpand"
                     MaxLength="150"/>
@@ -32,19 +34,13 @@
             <Label Text="Fecha:"
                    FontAttributes="Bold" 
                    FontSize="Medium"/>
+            
             <DatePicker Date="{Binding FechaTarea}" 
                         MinimumDate="{Binding FechaTarea}"/>
+            
             <Button Text="Agregar Tarea" 
                     Command="{Binding btnGuardar}"
                     Style="{StaticResource btnStyle}">
-                <Button.Triggers>
-                    <DataTrigger TargetType="Button"
-                        Binding="{Binding Source={x:Reference txtTitulo},
-                                           Path=Text.Length}"
-                                            Value="0">
-                        <Setter Property="TextColor" Value="Black" />
-                    </DataTrigger>
-                </Button.Triggers>
             </Button>
         </StackLayout>
     </ContentPage.Content>

@@ -17,6 +17,7 @@ namespace TareasAPP.ViewModels
         private string _tituloTarea;
         private string _descripcionTarea;
         private DateTime _fechaTarea;
+        private ITareaService _tareaService;
 
         // Servicios de Prism
         private INavigationService _navegacion;
@@ -47,10 +48,11 @@ namespace TareasAPP.ViewModels
         // Commandos para la accion de guardar y cancelar
         public DelegateCommand btnGuardar { get; set; }        
 
-        public NuevaTareaViewModel(INavigationService navigationService, IPageDialogService dialogs) : base(navigationService)
+        public NuevaTareaViewModel(INavigationService navigationService, IPageDialogService dialogs, ITareaService tareaService) : base(navigationService)
         {
             this._navegacion = navigationService;
             this._dialogs = dialogs;
+            this._tareaService = tareaService;
 
             // Configuración de la fecha inicial en el DatePicker
             this._fechaTarea = DateTime.Now.Date;
@@ -68,11 +70,10 @@ namespace TareasAPP.ViewModels
             tarea.Titulo = this._tituloTarea;
             tarea.Descripcion = this._descripcionTarea;
             tarea.Fecha = this._fechaTarea.Date;
-
-            ITarea tareas = new TareaProcesos();
+            
             if (!string.IsNullOrEmpty(this._tituloTarea) || !string.IsNullOrWhiteSpace(this._tituloTarea))
             {
-                bool resultado = await tareas.GuardarTarea(tarea);
+                bool resultado = await this._tareaService.GuardarTarea(tarea);
 
                 if (resultado)
                 {

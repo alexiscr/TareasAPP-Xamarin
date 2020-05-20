@@ -9,30 +9,38 @@
              x:Class="TareasAPP.Views.DetalleTarea"
              Title="Detalle Tarea"
              NavigationPage.HasBackButton="False">
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Cancelar"
                      Order="Primary"
                      Command="{Binding btnCancelar}"
                      IconImageSource="cancel.png"></ToolbarItem>
     </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <StackLayout Padding="20">
             <Label Text="Título de Tarea:"
                    FontAttributes="Bold" 
                    FontSize="Medium"/>
+            
             <Entry Placeholder="Digíte el título de la tarea" 
                    Text="{Binding Tarea.Titulo}"
                    MaxLength="60"/>
+            
             <Label Text="Descripción:"
                    FontAttributes="Bold" 
                    FontSize="Medium"/>
+            
             <Editor Text="{Binding Tarea.Descripcion}"
                     VerticalOptions="FillAndExpand"
                     MaxLength="150"/>
             <Label Text="Fecha:"
                    FontAttributes="Bold" 
                    FontSize="Medium"/>
-            <DatePicker Date="{Binding Tarea.Fecha}" MinimumDate="{x:Static system:DateTime.Now}"/>
+            
+            <DatePicker Date="{Binding Tarea.Fecha}" 
+                        MinimumDate="{x:Static system:DateTime.Now}"/>
+            
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"/>

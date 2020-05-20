@@ -1,6 +1,4 @@
-﻿using Plugin.Calendars;
-using Plugin.Calendars.Abstractions;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -19,6 +17,7 @@ namespace TareasAPP.ViewModels
         private Tarea _tarea;
         private INavigationService _navegacion;
         private IPageDialogService _dialog;
+        private ITareaService _tareaService;
         private string resultadoEvento = null;
 
         private ICalendarService _calendarService;
@@ -37,11 +36,12 @@ namespace TareasAPP.ViewModels
         
 
 
-        public DetalleTareaViewModel(INavigationService navigationService, IPageDialogService dialogs, ICalendarService calendar)
+        public DetalleTareaViewModel(INavigationService navigationService, IPageDialogService dialogs,ITareaService tareaService, ICalendarService calendar)
             : base(navigationService)
         {
 
             this._calendarService = calendar;
+            this._tareaService = tareaService;
 
             this._navegacion = navigationService;
             this._dialog = dialogs;
@@ -52,32 +52,7 @@ namespace TareasAPP.ViewModels
             
         }
 
-        private async void btnCalendario_Command()
-        {
-            if (string.IsNullOrEmpty(resultadoEvento))
-            {                
-
-                resultadoEvento = this._calendarService.CreateEventCalendar(
-                                                        Tarea.Titulo,
-                                                        Tarea.Descripcion,
-                                                        Tarea.Fecha,
-                                                        Tarea.Fecha.AddHours(3)).Result;
-            }
-            
-
-            if (string.IsNullOrEmpty(resultadoEvento))
-            {
-                await this._dialog.DisplayAlertAsync(DialogConst.tituloError,
-                                                      DialogConst.errorEventoCalendario,
-                                                      DialogConst.okOpcion);
-            }
-            else {
-                await this._dialog.DisplayAlertAsync(DialogConst.tituloExito,
-                                                      DialogConst.exitoEventoCalenario,
-                                                      DialogConst.okOpcion);
-            }
-            
-        }
+        
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
@@ -94,7 +69,7 @@ namespace TareasAPP.ViewModels
         /// </summary>
         private async void btnEliminar_Command()
         {
-            ITarea tareaProcesos = new TareaProcesos();
+            
             var opcion = await this._dialog.DisplayAlertAsync(
                                             DialogConst.tituloPrecausion,
                                             DialogConst.precausionEliminar,
@@ -102,7 +77,7 @@ namespace TareasAPP.ViewModels
                                             DialogConst.cancelOpcion);
             if (opcion)
             {
-                bool resultado = tareaProcesos.EliminarTarea(Tarea).Result;
+                bool resultado = this._tareaService.EliminarTarea(Tarea).Result;
                 if (resultado)
                 {
                     await this._dialog.DisplayAlertAsync(
@@ -127,38 +102,66 @@ namespace TareasAPP.ViewModels
         /// </summary>
         private async void btnActualizar_Command()
         {
-            ITarea tareaProcesos = new TareaProcesos();
+            
             var opcion = await this._dialog.DisplayAlertAsync(
                                             DialogConst.tituloPrecausion,
                                             DialogConst.precausionActualizar,
                                             DialogConst.okOpcion,
                                             DialogConst.cancelOpcion);
-            if (opcion && (!string.IsNullOrEmpty(Tarea.Titulo) || !string.IsNullOrWhiteSpace(Tarea.Titulo)))
+            if (opcion)
             {
-                bool resultado = tareaProcesos.ActualizarTarea(Tarea).Result;
-                if (resultado)
+                if ((!string.IsNullOrEmpty(Tarea.Titulo) || !string.IsNullOrWhiteSpace(Tarea.Titulo)))
                 {
-                    await this._dialog.DisplayAlertAsync(
-                                               DialogConst.tituloExito,
-                                               DialogConst.exitoActualizar,
-                                               DialogConst.okOpcion);
+                    bool resultado = this._tareaService.ActualizarTarea(Tarea).Result;
+                    if (resultado)
+                    {
+                        await this._dialog.DisplayAlertAsync(
+                                                   DialogConst.tituloExito,
+                                                   DialogConst.exitoActualizar,
+                                                   DialogConst.okOpcion);
+                    }
+                    else
+                    {
+                        await this._dialog.DisplayAlertAsync(
+                                                   DialogConst.tituloError,
+                                                   DialogConst.errorActualizar,
+                                                   DialogConst.okOpcion);
+                    }
                 }
-                else
-                {
-                    await this._dialog.DisplayAlertAsync(
-                                               DialogConst.tituloError,
-                                               DialogConst.errorActualizar,
-                                               DialogConst.okOpcion);
-                }
+                
+            }            
+        }
+        /// <summary>
+        /// Método para el registro del tareas al calendario
+        /// </summary>
+        private async void btnCalendario_Command()
+        {
+            if (string.IsNullOrEmpty(resultadoEvento))
+            {
+
+                resultadoEvento = this._calendarService.CreateEventCalendar(
+                                                        Tarea.Titulo,
+                                                        Tarea.Descripcion,
+                                                        Tarea.Fecha.AddHours(2),
+                                                        Tarea.Fecha.AddHours(5)).Result;
             }
-            else {
+
+
+            if (string.IsNullOrEmpty(resultadoEvento))
+            {
                 await this._dialog.DisplayAlertAsync(DialogConst.tituloError,
-                                                          DialogConst.errorEntry,
-                                                          DialogConst.okOpcion); ;
+                                                      DialogConst.errorEventoCalendario,
+                                                      DialogConst.okOpcion);
             }
+            else
+            {
+                await this._dialog.DisplayAlertAsync(DialogConst.tituloExito,
+                                                      DialogConst.exitoEventoCalenario,
+                                                      DialogConst.okOpcion);
+                btnCancelar_Command();
+            }
+
         }
 
-
-        
     }
 }

@@ -56,6 +56,7 @@ namespace TareasAPP.Droid.Services
             eventValues.Put(CalendarContract.Events.InterfaceConsts.Dtend, GetDateTimeMS(finEvento));
             eventValues.Put(CalendarContract.Events.InterfaceConsts.EventTimezone, System.TimeZoneInfo.Local.StandardName);
             eventValues.Put(CalendarContract.Events.InterfaceConsts.EventEndTimezone, System.TimeZoneInfo.Local.StandardName);
+            eventValues.Put(CalendarContract.Events.InterfaceConsts.AllDay, true);
 
             var uri = Application.Context.ContentResolver.Insert(CalendarContract.Events.ContentUri, eventValues);
 
@@ -73,7 +74,9 @@ namespace TareasAPP.Droid.Services
         private void GetSystemCalendar()
         {
             var calendarsUri = CalendarContract.Calendars.ContentUri;
-            var loader = new Android.Content.CursorLoader(Application.Context, calendarsUri, calendarsProjection, null, null, null);
+            
+            var loader = new AndroidX.Loader.Content.CursorLoader(Application.Context, calendarsUri, calendarsProjection, null, null, null);
+            //var loader = new Android.Content.CursorLoader(Application.Context, calendarsUri, calendarsProjection, null, null, null);
             var cursor = (ICursor)loader.LoadInBackground();
             if (cursor.Count > 0)
             {

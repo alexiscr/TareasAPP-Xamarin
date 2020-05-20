@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +19,7 @@ namespace TareasAPP.ViewModels
         private ObservableCollection<Tarea> _tareas;        
         private INavigationService _navegacion;
         private Tarea _tareaSeleccionada;
+        private ITareaService _tareaService;        
 
         // Propiedad que realizara el binding hacia la vista 
         public ObservableCollection<Tarea> Tareas
@@ -44,10 +46,12 @@ namespace TareasAPP.ViewModels
         // Definción de bones para la navegacion de las acciones
         public DelegateCommand btnAgregar { get; set; }
 
-        public MainPageViewModel(INavigationService navigationService)
+        public MainPageViewModel(INavigationService navigationService, ITareaService tareaService)
             : base(navigationService)
         {            
-            this._navegacion = navigationService;            
+            this._navegacion = navigationService;
+            this._tareaService = tareaService;
+            
             this.btnAgregar = new DelegateCommand(btnAgregar_Command);
             this.CargarListaTareas();
         }
@@ -58,8 +62,8 @@ namespace TareasAPP.ViewModels
         private void CargarListaTareas()
         {
             Tareas = new ObservableCollection<Tarea>();
-            ITarea tareaProcesos = new TareaProcesos();
-            var listaProcesos = tareaProcesos.ObtenerTareas().Result;
+            
+            var listaProcesos = this._tareaService.ObtenerTareas().Result;
 
             if (listaProcesos != null)
             {
@@ -68,7 +72,7 @@ namespace TareasAPP.ViewModels
         }
 
         private void btnAgregar_Command() {
-            this._navegacion.NavigateAsync("NuevaTarea");
+            this._navegacion.NavigateAsync("NuevaTarea");            
         }
 
         // Forzamos a la actualización de lista al navegar nuevamente a la principal
